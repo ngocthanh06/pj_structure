@@ -1,0 +1,51 @@
+services:
+  voiasia_roozy_psql:
+    image: postgres:latest
+    restart: unless-stopped
+    container_name: voiasia_roozy_psql
+    environment:
+      POSTGRES_HOST: ${DB_HOST}
+      POSTGRES_DB: ${DB_DATABASE}
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - "${DB_PORT}:5432"
+    env_file:
+      - .env
+    volumes:
+      - ./data.sql:/docker-entrypoint-initdb.d/data.sql
+    networks:
+      - voiasia_roozy_app_network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  voiasia_roozy_app:
+    container_name: voiasia_roozy_app
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    depends_on:
+      voiasia_roozy_psql:
+        condition: service_healthy
+    volumes:
+      - ./:/voiasia_roozy_app
+    env_file:
+      - .env
+    environment:
+      POSTGRES_HOST: ${DB_HOST}
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_DATABASE}
+    networks:
+      - voiasia_roozy_app_network
+volumes:
+  voiasia_roozy_psql:
+  voiasia_roozy_app:
+
+networks:
+  voiasia_roozy_app_network:

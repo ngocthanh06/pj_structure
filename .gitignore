@@ -1,0 +1,58 @@
+# Binaries for programs and plugins
+*.exe
+*.dll
+*.so
+*.dylib
+
+# Output of the go coverage tool
+*.out
+
+# Compiled object files
+*.o
+*.a
+
+# Architecture-specific binary files
+**/bin/
+**/obj/
+
+# Test binaries
+*.test
+
+# Go workspace files
+go.work
+go.work.sum
+
+# Go module files
+go.sum
+
+# Dependency directories (remove the comment below if you use vendoring)
+vendor/
+
+# IDEs and editors
+.idea/
+.vscode/
+*.swp
+*~
+
+# Sentry DSN config file
+.sentryclirc
+
+# Environment variables
+*.env
+
+# Log files
+*.log
+
+# Temporary files
+*.tmp
+*.temp
+
+*tmp
+
+# Build directories
+/build/
+# Go build cache
+/go-build/
+
+# Node.js dependencies (if any)
+node_modules/
